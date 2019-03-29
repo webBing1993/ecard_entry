@@ -21,8 +21,7 @@ const actions = {
     axios({
       url: httpTool.httpUrlEnv() + 'ecard-wechat' + param.url,
       method: param.method || 'GET',
-      baseURL: '',
-      // baseURL: ':9201',
+      baseURL: '/',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },

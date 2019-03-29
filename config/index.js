@@ -11,10 +11,12 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/': {
+      '/ecard-wechat': {
         target: 'http://intg.fortrun.cn:9051',
         changeOrigin: true,
-        pathRewrite: {}
+        pathRewrite: {
+          '^/ecard-wechat': ''
+        }
       }
     },
 

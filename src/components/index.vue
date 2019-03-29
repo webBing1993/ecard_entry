@@ -6,7 +6,8 @@
         <div class="phone">
           <i><img src="../assets/index/shoujihao.png" alt=""></i>
           <input name="phone" type="number" placeholder="请输入11位手机号" v-model="phone"/>
-          <el-button :plain="true" @click="sendcode" :class="btntxt == '获取验证码' || btntxt == '重新获取' ? 'btns' : 'btns btning'">{{btntxt}}</el-button>
+          <el-button :plain="true" v-if="btntxt != '获取验证码' && btntxt != '重新获取'" class="btns btning">{{btntxt}}</el-button>
+          <el-button :plain="true" @click="sendcode" :class="btntxt == '获取验证码' || btntxt == '重新获取' ? 'btns' : 'btns btning'" v-else>{{btntxt}}</el-button>
         </div>
         <div class="code">
           <i><img src="../assets/index/mima.png" alt=""></i>
