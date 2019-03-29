@@ -124,6 +124,9 @@ export default {
           }else {
             this.$message.error(body.data.msg);
           }
+        },
+        onfail: body => {
+          this.$message.error(body.data.msg);
         }
       })
     },

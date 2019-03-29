@@ -46,10 +46,7 @@ const actions = {
         if(error){
           console.log("error",error)
         }
-        let status = error.response.status;
-        if (status === 401) {
-          router.push('/login')
-        }
+
       }
     )
   },
@@ -78,6 +75,7 @@ const actions = {
         param.onsuccess ? param.onsuccess(body) : null
       },
       onFail: body => {
+        param.onfail ? param.onfail(body) : null
       }
     })
   },
