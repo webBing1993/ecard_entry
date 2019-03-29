@@ -75,7 +75,7 @@ export default {
       }else if(!reg.test(this.phone)){
         this.$message.error('手机格式不正确');
       }else{
-        this.time = 60;
+        this.time = 180;
         this.disabled = true;
         this.timer();
 
@@ -105,9 +105,7 @@ export default {
       } else{
         this.time = 0;
         this.btntxt = "重新获取";
-        setTimeout(() => {
-          this.disabled = false;
-        }, 3000);
+        this.disabled = false;
       }
     },
 
