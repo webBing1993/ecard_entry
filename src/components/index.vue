@@ -192,7 +192,7 @@ export default {
         i {
           width: 24px;
           height: 24px;
-          display: inline-block;
+          display: inline-table;
           margin-right: 8px;
           img {
             display: inline-block;
@@ -204,6 +204,7 @@ export default {
           border: none;
           font-size: 16px;
           line-height: 30px;
+          background-color: transparent;
         }
         input:-moz-placeholder {
           color: #999;
