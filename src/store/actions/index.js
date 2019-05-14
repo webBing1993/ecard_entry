@@ -19,7 +19,7 @@ const actions = {
 
   request: (ctx, param) => {
     axios({
-      url: httpTool.httpUrlEnv() + 'ecard-wechat' + param.url,
+      url: httpTool.httpUrlEnv() + 'ecard-work-wechat' + param.url,
       method: param.method || 'GET',
       baseURL: '/',
       headers: {
