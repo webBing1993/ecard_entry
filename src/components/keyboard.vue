@@ -1,7 +1,7 @@
 <template>
 
   <div class="keyboard" v-show="showKeyboard" v-clickoutside="closeModal">
-    <h2 ><span @click="close()">取消</span></h2>
+    <!--<h2 ><span @click="close()">取消</span></h2>-->
     <p v-for="keys in keyList">
       <template v-for="key in keys">
         <i v-if="key === 'top'" @click.stop="clickKey"  class="iconfont icon-zhiding tab-top"></i>
@@ -11,6 +11,7 @@
         <i v-else-if="key === 'symbol'" @click.stop="clickKey"  class="tab-symbol">符</i>
         <i v-else-if="key === 'point'" @click.stop="clickKey"  class="tab-point">·</i>
         <i v-else-if="key === 'enter'" @click.stop="clickKey"  class="iconfont icon-huiche tab-enter"></i>
+        <i v-else-if="key === 'cancel'" @click.stop="close()">取消</i>
         <i v-else @click.stop="clickKey" >{{key}}</i>
       </template>
     </p>
@@ -30,7 +31,7 @@
           ['1', '2', '3'],
           ['4', '5', '6'],
           ['7', '8', '9'],
-          ['.', '0', 'del'],
+          ['cancel', '0', 'del'],
         ],
 //        equip:!!navigator.userAgent.toLocaleLowerCase().match(/ipad|mobile/i)//是否是移动设备
       }
@@ -111,6 +112,7 @@
 
 <style lang="less">
   .keyboard {
+    padding-top: 2px;
     display: inline-block;
     width: 100%;
     font-size: 16px;
