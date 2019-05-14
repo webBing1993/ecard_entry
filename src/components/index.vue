@@ -5,24 +5,33 @@
         <p class="title">微前台登录</p>
         <div class="phone">
           <i><img src="../assets/index/shoujihao.png" alt=""></i>
-          <input name="phone" type="number" placeholder="请输入11位手机号" v-model="phone"/>
+          <input type="tel"  value="" v-model="phone" min="1" id="input_id" placeholder="请输入11位手机号"  ref="keyboard" @focus="onFocus($event)" v-if="isDevice"/>
+          <input name="phone" type="tel" placeholder="请输入11位手机号" v-model="phone" ref="keyboard" v-else/>
+
           <el-button :plain="true" v-if="btntxt != '获取验证码' && btntxt != '重新获取'" class="btns btning">{{btntxt}}</el-button>
           <el-button :plain="true" @click="sendcode" :class="btntxt == '获取验证码' || btntxt == '重新获取' ? 'btns' : 'btns btning'" v-else>{{btntxt}}</el-button>
         </div>
         <div class="code">
           <i><img src="../assets/index/mima.png" alt=""></i>
-          <input type="text" placeholder="请输入6位验证码" v-model="code"/>
+          <input type="text"  value="" v-model="code" placeholder="请输入6位验证码"  ref="keyboard_" @focus="onFocus_($event)" v-if="isDevice"/>
+          <input type="text" placeholder="请输入6位验证码" v-model="code" v-else/>
         </div>
         <!--<p class="login" v-if="entryAll" @click="login">登录</p>-->
         <p class="login"  @click="login">登录</p>
       </div>
       <p class="footer">上海复创科技提供技术支持</p>
+
+      <keyboard :option="option" @keyVal="getInputValue" @close="option.show=false"></keyboard>
+      <keyboard :option="option_" @keyVal="getInputValue_" @close="option_.show=false"></keyboard>
+
     </div>
   </div>
 </template>
 
 <script>
   import {mapActions} from 'vuex';
+
+  import Keyboard from './keyboard.vue'
 export default {
   name: 'HelloWorld',
   data () {
@@ -33,8 +42,20 @@ export default {
       code: '',
       phone: '',
       flagPc: false,    // 判断是否为pc端
+      isDevice: false,    // 判断是否为双屏设备
+      option: {
+        show: false,
+        sourceDom: ''
+      },
+      option_: {
+        show: false,
+        sourceDom: ''
+      },
       entryAll: false,  // 判断是否可以点击确定按钮
     }
+  },
+  components: {
+    Keyboard
   },
   mounted () {
     let flag = this.IsPC();
@@ -43,6 +64,7 @@ export default {
     }else {
       this.flagPc = false;
     }
+    this.IsDevice();
   },
   methods:{
 
@@ -51,6 +73,42 @@ export default {
       'getCode',
       'loginEntry'
     ]),
+    //获取键盘值
+    getInputValue(val){
+      console.log(val)
+      if(val==='del'){
+        this.phone=this.phone.toString().substr(0,this.phone.toString().length-1);
+        console.log(this.phone)
+      }else{
+        if(this.phone==null){
+          this.phone=''
+        }
+        this.phone+=val
+      }
+    },
+    onFocus(ev){
+//      document.activeElement.blur();//禁止默认键盘
+      this.$set(this.option,'show',true)
+      this.$set(this.option,'sourceDom',this.$refs['keyboard'])
+    },
+    onFocus_(ev){
+//      document.activeElement.blur();//禁止默认键盘
+      this.$set(this.option_,'show',true)
+      this.$set(this.option_,'sourceDom',this.$refs['keyboard_'])
+    },
+    //获取键盘值
+    getInputValue_(val){
+      console.log(val)
+      if(val==='del'){
+        this.code=this.code.toString().substr(0,this.code.toString().length-1);
+        console.log(this.phone)
+      }else{
+        if(this.code==null){
+          this.code=''
+        }
+        this.code+=val
+      }
+    },
 
     // 判断是否为PC端
     IsPC () {
@@ -68,6 +126,19 @@ export default {
       return flag;
     },
 
+    // 判断是否是双屏设备
+    IsDevice() {
+      let userAgentInfo = navigator.userAgent;  //navigator.userAgent
+      console.log('userAgentInfo:',userAgentInfo);
+      let Agents = ["FortrunRZT"];
+      let this_ = this;
+      for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) != -1) {
+          this_.isDevice = true;
+          break;
+        }
+      }
+    },
     //验证手机号码部分
     sendcode(){
       let reg = 11 && /^((13|14|15|16|17|18)[0-9]{1}\d{8})$/;
