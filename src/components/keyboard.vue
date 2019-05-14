@@ -27,9 +27,9 @@
         keyList: [],
         status: 2,//0 小写 1 大写 2 数字 3 符号
         lowercase: [
-          ['7', '8', '9'],
-          ['4', '5', '6'],
           ['1', '2', '3'],
+          ['4', '5', '6'],
+          ['7', '8', '9'],
           ['.', '0', 'del'],
         ],
 //        equip:!!navigator.userAgent.toLocaleLowerCase().match(/ipad|mobile/i)//是否是移动设备
