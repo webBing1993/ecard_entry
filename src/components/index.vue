@@ -13,8 +13,8 @@
           <i><img src="../assets/index/mima.png" alt=""></i>
           <input type="text" placeholder="请输入6位验证码" v-model="code"/>
         </div>
-        <p class="login" v-if="entryAll" @click="login">登录</p>
-        <p class="login" v-else>登录</p>
+        <!--<p class="login" v-if="entryAll" @click="login">登录</p>-->
+        <p class="login"  @click="login">登录</p>
       </div>
       <p class="footer">上海复创科技提供技术支持</p>
     </div>
@@ -78,7 +78,6 @@ export default {
       }else{
         this.time = 180;
         this.disabled = true;
-        this.timer();
 
         this.getCode({
           data: {
@@ -87,6 +86,9 @@ export default {
           onsuccess: body => {
             this.entryAll = true;
             if (body.data.code == 0) {
+              if (body.data.data == '' || body.data.data == null) {
+                this.timer();
+              }
               if (body.data.data.code != 0) {
                 this.$message.error(body.data.data.msg);
               }
@@ -112,24 +114,42 @@ export default {
 
     // 登录
     login(){
-      this.loginEntry({
-        data: {
-          phone: this.phone,
-          code: this.code
-        },
-        onsuccess: body => {
-          console.log('body:',body);
-          if (body.data.code == 0) {
-            window.location.href = body.data.data;
-//            this.goto(body.data.data);
-          }else {
-            this.$message.error(body.data.msg);
-          }
-        },
-        onfail: body => {
-          this.$message.error(body.data.msg);
+      let reg = 11 && /^((13|14|15|16|17|18)[0-9]{1}\d{8})$/;
+      if(this.phone == ''){
+        this.$message('请输入手机号码');
+      }else if(!reg.test(this.phone)){
+        this.$message.error('手机格式不正确');
+        if (this.code == '') {
+          this.$message('请输入验证码');
+        }else if (this.code.length > 6) {
+          this.$message('请输入６位数验证码');
         }
-      })
+      }else {
+        if (this.code == '') {
+          this.$message('请输入验证码');
+        }else if (this.code.length != 6) {
+          this.$message('请输入６位数验证码');
+        }else {
+          this.loginEntry({
+            data: {
+              phone: this.phone,
+              code: this.code
+            },
+            onsuccess: body => {
+              console.log('body:',body);
+              if (body.data.code == 0) {
+                window.location.href = body.data.data;
+//            this.goto(body.data.data);
+              }else {
+                this.$message.error(body.data.msg);
+              }
+            },
+            onfail: body => {
+              this.$message.error(body.data.msg);
+            }
+          })
+        }
+      }
     },
 
   }
