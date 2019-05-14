@@ -113,7 +113,8 @@
   .keyboard {
     display: inline-block;
     width: 100%;
-    font-size: 14px;
+    font-size: 16px;
+    color: #000;
     border-radius: 2px;
     background-color: #e5e6e8;
     -webkit-user-select: none;
@@ -143,7 +144,7 @@
     justify-content: center;
   }
   .keyboard h2{
-    font-size: 15px;
+    font-size: 16px;
     font-weight: normal;
     /*background: #f1f1f1;*/
     display: flow-root;
@@ -163,7 +164,7 @@
   .keyboard p i {
     display: block;
     margin: 0 0.2%;
-    line-height: 30px;
+    line-height: 60px;
     font-style: normal;
     border-radius: 3px;
     background-color: #fff;
