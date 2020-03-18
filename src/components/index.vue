@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="entry">
+    <div class="entry" v-if="flagPc || isDevice">
       <div :class="flagPc ? 'body ' : 'body flagBody'">
         <p class="title">微前台登录</p>
         <div class="phone">
@@ -24,6 +24,24 @@
       <keyboard :option="option" @keyVal="getInputValue" @close="option.show=false"></keyboard>
       <keyboard :option="option_" @keyVal="getInputValue_" @close="option_.show=false"></keyboard>
 
+    </div>
+    <div class="entryPhone" v-else>
+      <div class="bgImg">
+        <img src="../assets/index/zhihuijiudian.png" alt="">
+      </div>
+      <div class="entryPhone_content">
+        <div class="phone">
+          <i><img src="../assets/index/shoujihao_.png" alt=""></i>
+          <input name="phone" type="tel" placeholder="请输入11位手机号" v-model="phone" ref="keyboard" />
+          <el-button :plain="true" v-if="btntxt != '获取验证码' && btntxt != '重新获取'" class="btns btning">{{btntxt}}</el-button>
+          <el-button :plain="true" @click="sendcode" :class="btntxt == '获取验证码' || btntxt == '重新获取' ? 'btns' : 'btns btning'" v-else>{{btntxt}}</el-button>
+        </div>
+        <div class="code">
+          <i><img src="../assets/index/yanzhengma.png" alt=""></i>
+          <input type="number" placeholder="请输入6位验证码" v-model="code"/>
+        </div>
+        <p class="login"  @click="login">登录</p>
+      </div>
     </div>
   </div>
 </template>
@@ -65,6 +83,9 @@ export default {
       this.flagPc = false;
     }
     this.IsDevice();
+    this.$nextTick(() => {
+        console.log(this.flagPc, this.isDevice);
+    })
   },
   methods:{
 
@@ -209,8 +230,9 @@ export default {
             onsuccess: body => {
               console.log('body:',body);
               if (body.data.code == 0) {
+                this.phone = '';
+                this.code = '';
                 window.location.href = body.data.data;
-//            this.goto(body.data.data);
               }else {
                 this.$message.error(body.data.msg);
               }
@@ -347,6 +369,82 @@ export default {
     outline: none;
     border-color: transparent;
     box-shadow:none;
+  }
+
+  .entryPhone {
+    .bgImg {
+      width: 100%;
+      img {
+        display: block;
+        width: 100%;
+      }
+    }
+    .entryPhone_content {
+      padding: 40px 25px 0;
+      .phone, .code {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 20px 0;
+        border-bottom: 1px solid #E6E6E6;
+        position: relative;
+        i {
+          width: 16px;
+          margin-right: 20px;
+          img {
+            display: block;
+            width: 100%;
+          }
+        }
+        input {
+          border: none;
+          font-family: PingFangSC-Regular;
+          font-size: 16px;
+          background-color: transparent;
+        }
+        input:-moz-placeholder {
+          color: #B2B2B2;
+        }
+        input:-ms-input-placeholder {
+          color: #B2B2B2;
+        }
+        input::-moz-placeholder {
+          color: #B2B2B2;
+        }
+        input::-webkit-input-placeholder {
+          color: #B2B2B2;
+        }
+        .btns {
+          background-color: transparent;
+          border: none;
+          box-shadow: none;
+          color: #4378BA;
+          font-size: 16px;
+          padding: 10px 0 ;
+          cursor: pointer;
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        /deep/ .el-message {
+          background-color: transparent !important;
+        }
+        .btning {
+          color: #999;
+        }
+      }
+      .login {
+        margin-top: 80px;
+        text-align: center;
+        padding: 15px 0;
+        font-size: 18px;
+        color: #fff;
+        border-radius: 10px;
+        background-color: #4378BA;
+        cursor: pointer;
+      }
+    }
   }
 
 </style>
